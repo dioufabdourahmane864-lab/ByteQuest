@@ -20,9 +20,12 @@
 /* Style général de la page : fond, police et couleur du texte. */
 body {
   margin: 0;
+  width: 100%;
+  min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
   background: linear-gradient(135deg, #0f172a, #1e3a8a);
   color: var(--text);
+  overflow-x: hidden;
 }
 
 /* Les champs et les boutons utilisent la même police que la page. */
@@ -35,7 +38,10 @@ input {
 .app {
   max-width: 980px;
   margin: 0 auto;
-  padding: 40px 20px 60px;
+  padding: max(24px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(48px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
 }
 
 /* Présentation de l'en-tête et du menu. */
@@ -50,6 +56,12 @@ input {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+}
+
+.topbar > div,
+.menu,
+.module {
+  min-width: 0;
 }
 
 /* Petit texte situé au-dessus du titre principal. */
@@ -71,7 +83,14 @@ p {
 
 h1 {
   margin-bottom: 0;
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: clamp(1.85rem, 7vw, 3rem);
+  overflow-wrap: anywhere;
+}
+
+.intro {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
 /* Les boutons du menu se placent sur une ou plusieurs lignes. */
@@ -91,6 +110,7 @@ button {
   color: var(--text);
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease;
+  overflow-wrap: anywhere;
 }
 
 .nav-btn:hover,
@@ -117,7 +137,8 @@ main {
   border: 1px solid rgba(148, 163, 184, 0.18);
   border-radius: 18px;
   box-shadow: 0 12px 28px var(--shadow);
-  padding: 24px;
+  padding: clamp(16px, 4vw, 24px);
+  overflow: hidden;
 }
 
 /* JavaScript ajoute active pour montrer le module choisi. */
@@ -220,6 +241,7 @@ input[type="number"] {
   font-size: 1.05rem;
   cursor: pointer;
   user-select: none;
+  overflow-wrap: anywhere;
 }
 
 /* Boutons de contrôle du tri à bulles. */
@@ -235,7 +257,9 @@ input[type="number"] {
   display: flex;
   align-items: end;
   justify-content: center;
-  gap: 4px;
+  gap: clamp(2px, 1vw, 4px);
+  width: 100%;
+  overflow: hidden;
   min-height: 220px;
   padding: 20px 10px 10px;
   border-radius: 12px;
@@ -245,7 +269,9 @@ input[type="number"] {
 
 /* Une barre représente une valeur du tableau JavaScript. */
 .bar {
-  width: 18px;
+  flex: 1 1 0;
+  min-width: 4px;
+  max-width: 18px;
   border-radius: 8px 8px 0 0;
   background: linear-gradient(180deg, var(--primary), var(--secondary));
   transition: height 0.2s ease, background 0.2s ease;
@@ -282,5 +308,71 @@ input[type="number"] {
   .nav-btn,
   button {
     flex: 1 1 140px;
+  }
+
+  .topbar {
+    padding: 18px 16px;
+  }
+
+  .module h2 {
+    font-size: 1.45rem;
+  }
+}
+
+/* Réglages pour les téléphones très étroits, en portrait ou en paysage. */
+@media (max-width: 420px) {
+  .app {
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
+
+  .topbar {
+    border-radius: 12px;
+  }
+
+  .menu {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .nav-btn,
+  button {
+    min-width: 0;
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+
+  .module {
+    border-radius: 12px;
+  }
+
+  .answer-btn {
+    margin: 0;
+  }
+
+  .sort-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .bars-container {
+    min-height: 180px;
+    padding: 16px 6px 8px;
+  }
+}
+
+/* En paysage sur un téléphone, on réduit les espaces verticaux. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app {
+    padding-top: 12px;
+    padding-bottom: 24px;
+  }
+
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  main {
+    margin-top: 12px;
   }
 }
