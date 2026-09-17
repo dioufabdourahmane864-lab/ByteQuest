@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <!-- Indique au navigateur qu'il s'agit d'un document HTML moderne. -->
+    <!-- L'attribut lang aide les lecteurs d'écran et les moteurs de recherche. -->
+    <meta charset="UTF-8" />
+    <!-- Adapte la largeur de la page à celle du téléphone ou de l'ordinateur. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Résumé utilisé notamment par les moteurs de recherche. -->
+    <meta
+      name="description"
+      content="ByteQuest, une application interactive pour réviser les bases de l'informatique."
+    />
+    <!-- Texte affiché dans l'onglet du navigateur. -->
+    <title>ByteQuest | Réviser l'informatique</title>
+    <!-- Le chemin commence par ../ car index.html se trouve dans le dossier HTML. -->
+    <link rel="stylesheet" href="../CSS/style.css" />
+  </head>
+  <body>
+    <!--
+      Ces cinq éléments ne contiennent pas de texte : ils servent de couches
+      visuelles. Le CSS leur attribue une image et les fait apparaître à tour de rôle.
+    -->
+    <div class="background-slideshow" aria-hidden="true">
+      <span class="background-slide slide-one"></span>
+      <span class="background-slide slide-two"></span>
+      <span class="background-slide slide-three"></span>
+      <span class="background-slide slide-four"></span>
+      <span class="background-slide slide-five"></span>
+    </div>
+
+    <!--
+      Écran d'accueil affiché au-dessus de l'application au chargement.
+      JavaScript lui ajoute la classe is-hidden après le clic sur le bouton.
+    -->
+    <section
+      class="welcome-screen"
+      id="welcome-screen"
+      aria-labelledby="welcome-title"
+    >
+      <!-- Cercles décoratifs animés par le CSS. -->
+      <div class="welcome-glow welcome-glow-one" aria-hidden="true"></div>
+      <div class="welcome-glow welcome-glow-two" aria-hidden="true"></div>
+      <!-- Symboles décoratifs liés à la programmation. -->
+      <div class="welcome-code-stream" aria-hidden="true">
+        <span class="code-symbol symbol-one">&lt;/&gt;</span>
+        <span class="code-symbol symbol-two">01 10</span>
+        <span class="code-symbol symbol-three">{ JS }</span>
+        <span class="code-symbol symbol-four">CSS</span>
+        <span class="code-symbol symbol-five">&lt;div&gt;</span>
+        <span class="code-symbol symbol-six">10101</span>
+      </div>
+      <!-- Partie visible et lisible de l'écran de bienvenue. -->
+      <div class="welcome-content">
+        <p class="welcome-kicker">Apprendre l'informatique autrement</p>
+        <h1 id="welcome-title">
+          <span>Bienvenue sur</span>
+          ByteQuest
+        </h1>
+        <p class="welcome-slogan">Apprends. Teste. Progresse.</p>
+        <p class="welcome-description">
+          Une expérience interactive pour explorer les bases du numérique à ton rythme.
+        </p>
+        <!-- L'identifiant start-app permet à JavaScript de récupérer ce bouton. -->
+        <button class="welcome-button" id="start-app" type="button">
+          Commencer l'aventure
+          <span aria-hidden="true">&rarr;</span>
+        </button>
+        <p class="welcome-hint">Quiz, conversion, flashcards et statistiques</p>
+      </div>
+    </section>
+
+    <!-- Conteneur principal de toute l'application. -->
+    <div class="app">
+      <!-- En-tête : nom de l'application et menu de navigation. -->
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Mini-projet JavaScript &amp; DOM</p>
+          <h1>ByteQuest</h1>
+          <p class="intro">
+            Révisez, convertissez et observez des algorithmes en action.
+          </p>
+        </div>
+
+        <!-- Chaque bouton affiche un module grâce à son attribut data-module. -->
+        <nav class="menu" aria-label="Navigation principale">
+          <button
+            class="nav-btn active"
+            data-module="quiz"
+            aria-controls="quiz"
+          >
+            Quiz
+          </button>
+          <button class="nav-btn" data-module="convert" aria-controls="convert">
+            Convertisseur
+          </button>
+          <button
+            class="nav-btn"
+            data-module="flashcards"
+            aria-controls="flashcards"
+          >
+            Flashcards
+          </button>
+          <button class="nav-btn" data-module="stats" aria-controls="stats">
+            Statistiques
+          </button>
+        </nav>
+      </header>
+
+      <main>
+        <!-- Module 1 : le quiz est visible au démarrage. -->
+        <section id="quiz" class="module active" aria-labelledby="quiz-title">
+          <h2 id="quiz-title">Quiz informatique</h2>
+          <!-- JavaScript insère ici la question et les boutons de réponse. -->
+          <div id="quiz-content"></div>
+          <!-- Cette zone affiche le score global du quiz. -->
+          <p id="quiz-score">Score : 0 / 20</p>
+        </section>
+
+        <!-- Module 2 : conversion d'un nombre décimal. -->
+        <section id="convert" class="module" aria-labelledby="convert-title">
+          <h2 id="convert-title">Convertisseur</h2>
+          <!-- L'événement submit de ce formulaire est traité par JavaScript. -->
+          <form class="converter-box" id="converter-form">
+            <label for="decimal-input">Nombre décimal</label>
+            <input
+              type="number"
+              id="decimal-input"
+              min="0"
+              placeholder="Ex. : 42"
+            />
+            <button id="convert-btn" type="submit">Convertir</button>
+          </form>
+          <!-- Le résultat de la conversion est créé ici sans recharger la page. -->
+          <div
+            id="conversion-result"
+            class="result-box"
+            aria-live="polite"
+          ></div>
+        </section>
+
+        <!-- Module 3 : cartes à retourner pour réviser. -->
+        <section
+          id="flashcards"
+          class="module"
+          aria-labelledby="flashcards-title"
+        >
+          <h2 id="flashcards-title">Flashcards</h2>
+          <!-- JavaScript affiche ici la carte actuellement sélectionnée. -->
+          <div id="cards-container" class="flashcards-box"></div>
+          <button id="next-card">Carte suivante</button>
+        </section>
+
+        <!-- Module 4 : statistiques de progression du quiz. -->
+        <section id="stats" class="module" aria-labelledby="stats-title">
+          <h2 id="stats-title">Statistiques du quiz</h2>
+          <p class="stats-intro">Suivez vos résultats au fil des réponses.</p>
+          <!-- aria-live informe les technologies d'assistance quand les chiffres changent. -->
+          <div class="stats-grid" aria-live="polite">
+            <article class="stat-card">
+              <span class="stat-label">Score</span>
+              <strong id="stats-score">0 / 20</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Réussite</span>
+              <strong id="stats-percentage">0 %</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Bonnes réponses</span>
+              <strong id="stats-correct">0</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Erreurs</span>
+              <strong id="stats-wrong">0</strong>
+            </article>
+          </div>
+          <div class="progress-box">
+            <div class="progress-heading">
+              <span>Progression</span>
+              <span id="stats-answered">0 / 20 questions</span>
+            </div>
+            <!-- Barre dont la largeur est modifiée par JavaScript selon la progression. -->
+            <div
+              class="progress-track"
+              role="progressbar"
+              aria-label="Progression du quiz"
+              aria-valuemin="0"
+              aria-valuemax="20"
+              aria-valuenow="0"
+            >
+              <div id="stats-progress" class="progress-bar"></div>
+            </div>
+          </div>
+          <p id="stats-message" class="stats-message">
+            Répondez à une question pour commencer.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <!-- defer exécute le script après l'analyse du HTML, sans bloquer son affichage. -->
+    <!-- ../JS signifie : remonter de HTML vers le dossier parent puis entrer dans JS. -->
+    <script src="../JS/script.js" defer></script>
+  </body>
+</html>

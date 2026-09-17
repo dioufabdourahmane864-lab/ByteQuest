@@ -1,6 +1,16 @@
-/* On attend que le HTML soit chargé avant de chercher ses éléments.*/
+/*
+  Le navigateur lit parfois le JavaScript avant d'avoir créé tout le HTML.
+  DOMContentLoaded garantit que les éléments HTML existent avant notre code.
+*/
 document.addEventListener('DOMContentLoaded', () => {
-  // Ce tableau contient les 20 questions et leurs réponses expliquées.
+  /*
+    Tableau contenant les questions du quiz.
+    Pour chaque objet :
+    - q contient l'énoncé ;
+    - choices contient les réponses possibles ;
+    - answer contient l'index de la bonne réponse, en commençant à 0 ;
+    - explanation contient le texte affiché après la réponse.
+  */
   const quizQuestions = [
     {
       q: 'Qui est considéré comme le père de l’informatique ?',
@@ -129,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
   ];
 
-  // Chaque flashcard possède une question au recto et sa réponse au verso.
+  /* Chaque objet représente une flashcard : front = recto, back = verso. */
   const flashcardsData = [
     {
       front: "Qu'est-ce qu'un algorithme ?",
@@ -164,11 +174,26 @@ document.addEventListener('DOMContentLoaded', () => {
     { front: 'Qu’est-ce qu’un index ?', back: 'La position d’un élément dans un tableau. Le premier index vaut 0.' },
   ];
 
-  // Récupère les boutons et les sections pour pouvoir les modifier avec le DOM.
+  /*
+    querySelectorAll récupère plusieurs éléments et renvoie une NodeList.
+    Ces deux listes servent à afficher un seul module à la fois.
+  */
   const navButtons = document.querySelectorAll('.nav-btn');
   const modules = document.querySelectorAll('.module');
+  const welcomeScreen = document.getElementById('welcome-screen');
+  const startAppButton = document.getElementById('start-app');
 
-  // Affiche le module choisi et actualise le bouton actif du menu.
+  // Ferme l'écran d'accueil et révèle les modules de l'application.
+  startAppButton.addEventListener('click', () => {
+    welcomeScreen.classList.add('is-hidden');
+    welcomeScreen.setAttribute('aria-hidden', 'true');
+  });
+
+  /*
+    Affiche le module choisi :
+    classList.toggle(classe, condition) ajoute la classe si la condition est vraie
+    et la retire dans le cas contraire.
+  */
   function changeModule(button) {
     modules.forEach((module) => {
       module.classList.toggle('active', module.id === button.dataset.module);
@@ -179,19 +204,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Ajoute l'événement click à chaque bouton du menu.
+  // Ajoute le même comportement click à chaque bouton de navigation.
   navButtons.forEach((button) => button.addEventListener('click', () => changeModule(button)));
 
-  // Ces variables mémorisent la position du quiz, le score et le délai.
+  /*
+    État du quiz : ces variables changent pendant la partie.
+    currentQuestion est un index, score compte les bonnes réponses et
+    answeredQuestions compte toutes les réponses déjà données.
+  */
   let currentQuestion = 0;
   let score = 0;
+  let answeredQuestions = 0;
   let nextQuestionTimer;
-  let canSkipExplanation = false;
   const quizContent = document.getElementById('quiz-content');
   const quizScore = document.getElementById('quiz-score');
+  const statsScore = document.getElementById('stats-score');
+  const statsPercentage = document.getElementById('stats-percentage');
+  const statsCorrect = document.getElementById('stats-correct');
+  const statsWrong = document.getElementById('stats-wrong');
+  const statsAnswered = document.getElementById('stats-answered');
+  const statsProgress = document.getElementById('stats-progress');
+  const statsMessage = document.getElementById('stats-message');
 
-  // Construit la question actuelle directement dans le DOM.
+  /*
+    Met à jour les statistiques visibles.
+    Le pourcentage est calculé avec : bonnes réponses / réponses données * 100.
+  */
+  function updateStats() {
+    // Si une réponse n'est pas correcte, elle est comptée dans wrong.
+    const wrong = answeredQuestions - score;
+    const percentage = answeredQuestions === 0
+      ? 0
+      : Math.round((score / answeredQuestions) * 100);
+
+    statsScore.textContent = `${score} / ${quizQuestions.length}`;
+    statsPercentage.textContent = `${percentage} %`;
+    statsCorrect.textContent = score;
+    statsWrong.textContent = wrong;
+    statsAnswered.textContent = `${answeredQuestions} / ${quizQuestions.length} questions`;
+    // La largeur de la barre représente le pourcentage de questions traitées.
+    statsProgress.style.width = `${(answeredQuestions / quizQuestions.length) * 100}%`;
+    statsProgress.parentElement.setAttribute('aria-valuenow', answeredQuestions);
+
+    if (answeredQuestions === 0) {
+      statsMessage.textContent = 'Répondez à une question pour commencer.';
+    } else if (answeredQuestions === quizQuestions.length) {
+      statsMessage.textContent = `Quiz terminé : ${score} bonne${score > 1 ? 's' : ''} réponse${score > 1 ? 's' : ''} sur ${quizQuestions.length}.`;
+    } else {
+      statsMessage.textContent = 'Continuez vos efforts, vos résultats se mettent à jour automatiquement.';
+    }
+  }
+
+  /*
+    Construit la question actuelle dans le DOM.
+    innerHTML remplace le contenu précédent de quiz-content par la nouvelle question.
+  */
   function displayQuestion() {
+    // Quand l'index dépasse la dernière question, on affiche l'écran de fin.
     if (currentQuestion >= quizQuestions.length) {
       quizContent.innerHTML = `
         <h3>Quiz terminé !</h3>
@@ -202,91 +271,99 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // On récupère l'objet correspondant à l'index actuel.
     const question = quizQuestions[currentQuestion];
     quizContent.innerHTML = `<h3>Question ${currentQuestion + 1} : ${question.q}</h3>`;
 
-    // Une boucle crée un bouton pour chaque proposition de réponse.
+    // Une boucle crée un bouton HTML pour chaque proposition de réponse.
     question.choices.forEach((choice, index) => {
       const answerButton = document.createElement('button');
       answerButton.className = 'answer-btn';
       answerButton.type = 'button';
       answerButton.textContent = choice;
-      // Le clic transmet l'index de la réponse à la fonction de vérification.
+      // La fermeture mémorise index et le transmet au clic.
       answerButton.addEventListener('click', () => checkAnswer(index));
       quizContent.appendChild(answerButton);
     });
   }
 
-  // Remet le quiz à zéro pour permettre une nouvelle tentative.
+  // Remet toutes les variables du quiz à leur valeur de départ.
   function restartQuiz() {
     clearTimeout(nextQuestionTimer);
-    canSkipExplanation = false;
     currentQuestion = 0;
     score = 0;
+    answeredQuestions = 0;
     quizScore.textContent = `Score : 0 / ${quizQuestions.length}`;
+    updateStats();
     displayQuestion();
   }
 
-  // Passe à la question suivante et annule le délai encore en cours.
+  // Passe à la question suivante uniquement après le clic sur le bouton dédié.
   function showNextQuestion() {
     clearTimeout(nextQuestionTimer);
-    canSkipExplanation = false;
     currentQuestion += 1;
     displayQuestion();
   }
 
-  // Après une erreur, un clic n'importe où permet de continuer sans attendre.
-  document.addEventListener('click', () => {
-    if (canSkipExplanation) showNextQuestion();
-  });
-
-  // Vérifie la réponse, colore les boutons et explique une erreur.
+  /*
+    Vérifie la réponse sélectionnée.
+    Les boutons sont ensuite désactivés pour empêcher plusieurs réponses
+    à la même question.
+  */
   function checkAnswer(selectedIndex) {
     clearTimeout(nextQuestionTimer);
-    canSkipExplanation = false;
     const correctIndex = quizQuestions[currentQuestion].answer;
     const question = quizQuestions[currentQuestion];
     const answerButtons = document.querySelectorAll('.answer-btn');
 
     answerButtons.forEach((button, index) => {
+      // On bloque tous les boutons après le premier choix.
       button.disabled = true;
       if (index === correctIndex) button.classList.add('correct');
       if (index === selectedIndex && index !== correctIndex) button.classList.add('wrong');
     });
 
-    if (selectedIndex === correctIndex) {
+    // Une comparaison stricte vérifie que les deux index sont identiques.
+    const isCorrect = selectedIndex === correctIndex;
+    if (isCorrect) {
       score += 1;
-      nextQuestionTimer = setTimeout(showNextQuestion, 900);
-    } else {
-      const explanation = document.createElement('p');
-      explanation.className = 'answer-explanation';
-      explanation.innerHTML = `<strong>Faux.</strong> ${question.explanation}<br><small>Cliquez n'importe où pour continuer.</small>`;
-      quizContent.appendChild(explanation);
-      // Le clic ayant choisi la réponse ne doit pas passer immédiatement à la suite.
-      setTimeout(() => {
-        canSkipExplanation = true;
-      }, 0);
-      nextQuestionTimer = setTimeout(showNextQuestion, 70000);
     }
+
+    // Création d'un bloc contenant l'explication et le bouton suivant.
+    const feedback = document.createElement('div');
+    feedback.className = 'answer-feedback';
+    feedback.innerHTML = `
+      <p class="answer-explanation ${isCorrect ? 'is-correct' : ''}">
+        <strong>${isCorrect ? 'Correct !' : 'Faux.'}</strong> ${question.explanation}
+      </p>
+      <button class="next-quiz-button" type="button">Quiz suivant &rarr;</button>
+    `;
+    quizContent.appendChild(feedback);
+    // Le bouton est créé dynamiquement : on lui ajoute donc son événement ici.
+    feedback.querySelector('.next-quiz-button').addEventListener('click', showNextQuestion);
+
+    answeredQuestions += 1;
     quizScore.textContent = `Score : ${score} / ${quizQuestions.length}`;
+    updateStats();
   }
 
-  // Le formulaire convertit un nombre décimal en binaire et en hexadécimal.
+  /* Le formulaire convertit un nombre décimal en binaire et en hexadécimal. */
   const converterForm = document.getElementById('converter-form');
-  // Évite le rechargement et traite la saisie du formulaire en JavaScript.
+  // preventDefault empêche le formulaire de recharger la page après submit.
   converterForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const input = document.getElementById('decimal-input');
     const result = document.getElementById('conversion-result');
+    // Number transforme le texte saisi en valeur numérique.
     const value = Number(input.value);
 
-    // Cette condition refuse une saisie vide, décimale ou négative.
+    // On refuse une saisie vide, décimale, non numérique ou négative.
     if (input.value.trim() === '' || !Number.isInteger(value) || value < 0) {
       result.innerHTML = '<p class="error-message">Entrez un entier positif ou nul.</p>';
       return;
     }
 
-    // Les méthodes toString convertissent le nombre dans les bases demandées.
+    // toString(2) convertit en base 2 et toString(16) en base 16.
     result.innerHTML = `
       <p><strong>Décimal :</strong> ${value}</p>
       <p><strong>Binaire :</strong> ${value.toString(2)}</p>
@@ -294,92 +371,35 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   });
 
+  // currentCard contient l'index de la flashcard actuellement affichée.
   let currentCard = 0;
   const cardsContainer = document.getElementById('cards-container');
 
-  // Affiche une flashcard et permet de la retourner au clic.
+  /*
+    Affiche une flashcard et permet de la retourner au clic.
+    Chaque nouvel affichage recrée le bouton, puis lui associe un événement.
+  */
   function displayCard() {
     const card = flashcardsData[currentCard];
     cardsContainer.innerHTML = `<button class="flashcard" id="flip-card" type="button">${card.front}</button>`;
     document.getElementById('flip-card').addEventListener('click', (event) => {
+      // event.currentTarget désigne le bouton sur lequel l'événement est attaché.
       const isFront = event.currentTarget.textContent === card.front;
       event.currentTarget.textContent = isFront ? card.back : card.front;
     });
   }
 
-  // Passe à la carte suivante et revient à la première après la dernière.
+  // Passe à la carte suivante ; % permet de revenir à 0 après la dernière.
   document.getElementById('next-card').addEventListener('click', () => {
     currentCard = (currentCard + 1) % flashcardsData.length;
     displayCard();
   });
 
-  // values contient les nombres des barres; isSorting bloque les clics concurrents.
-  let values = [];
-  let isSorting = false;
-  const barsContainer = document.getElementById('bars-container');
-  const sortButton = document.getElementById('sort-btn');
-  const resetButton = document.getElementById('reset-btn');
-
-  // Génère les valeurs et les barres utilisées pour visualiser le tri.
-  function generateArray() {
-    values = [];
-    barsContainer.innerHTML = '';
-
-    // La boucle crée 15 nombres et 15 éléments visuels.
-    for (let index = 0; index < 15; index += 1) {
-      const value = Math.floor(Math.random() * 140) + 30;
-      values.push(value);
-      const bar = document.createElement('div');
-      bar.className = 'bar';
-      bar.style.height = `${value}px`;
-      bar.setAttribute('aria-label', `Valeur ${value}`);
-      barsContainer.appendChild(bar);
-    }
-  }
-
-  // Trie progressivement le tableau en animant chaque comparaison.
-  async function bubbleSort() {
-    isSorting = true;
-    sortButton.disabled = true;
-    resetButton.disabled = true;
-    const bars = document.querySelectorAll('.bar');
-
-    for (let end = values.length - 1; end > 0; end -= 1) {
-      for (let index = 0; index < end; index += 1) {
-        bars[index].classList.add('comparing');
-        bars[index + 1].classList.add('comparing');
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        // Si deux valeurs sont dans le mauvais ordre, on les échange.
-        if (values[index] > values[index + 1]) {
-          [values[index], values[index + 1]] = [values[index + 1], values[index]];
-          bars[index].style.height = `${values[index]}px`;
-          bars[index + 1].style.height = `${values[index + 1]}px`;
-        }
-
-        bars[index].classList.remove('comparing');
-        bars[index + 1].classList.remove('comparing');
-      }
-      bars[end].classList.add('sorted');
-    }
-    bars[0].classList.add('sorted');
-    isSorting = false;
-    sortButton.disabled = false;
-    resetButton.disabled = false;
-  }
-
-  // Génère un nouveau tableau lorsque l'utilisateur clique sur le bouton.
-  resetButton.addEventListener('click', () => {
-    if (!isSorting) generateArray();
-  });
-
-  // Lance le tri uniquement s'il n'y a pas déjà un tri en cours.
-  sortButton.addEventListener('click', () => {
-    if (!isSorting) bubbleSort();
-  });
-
-  // Initialise les trois modules interactifs au chargement de la page.
+  /*
+    Initialisation : on affiche une question, une flashcard et les statistiques
+    dès que le document est prêt.
+  */
   displayQuestion();
   displayCard();
-  generateArray();
+  updateStats();
 });
