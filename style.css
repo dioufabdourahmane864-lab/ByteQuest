@@ -302,32 +302,87 @@ body {
   background-size: cover;
   /* Une image invisible devient visible grâce à l'animation background-fade. */
   opacity: 0;
-  animation: background-fade 20s ease-in-out infinite;
+  animation: background-fade 64s ease-in-out infinite;
   will-change: opacity;
 }
 
 .slide-one {
-  background-image: url('../IMG/ales-nesetril-Im7lZjxeLhg-unsplash.jpg');
+  background-image: url('IMG/1.jpg');
 }
 
 .slide-two {
-  background-image: url('../IMG/christian-wiediger-WkfDrhxDMC8-unsplash.jpg');
-  animation-delay: -3.5s;
+  background-image: url('IMG/2.jpg');
+  animation-delay: -4s;
 }
 
 .slide-three {
-  background-image: url('../IMG/codioful-formerly-gradienta-OzfD79w8ptA-unsplash.jpg');
-  animation-delay: -7.5s;
+  background-image: url('IMG/3.jpg');
+  animation-delay: -8s;
 }
 
 .slide-four {
-  background-image: url('../IMG/fotis-fotopoulos-LJ9KY8pIH3E-unsplash.jpg');
-  animation-delay: -11.5s;
+  background-image: url('IMG/4.jpg');
+  animation-delay: -12s;
 }
 
 .slide-five {
-  background-image: url('../IMG/luke-chesser-JKUTrJ4vK00-unsplash.jpg');
-  animation-delay: -15.5s;
+  background-image: url('IMG/5.png');
+  animation-delay: -16s;
+}
+
+.slide-six {
+  background-image: url('IMG/6.jpg');
+  animation-delay: -20s;
+}
+
+.slide-seven {
+  background-image: url('IMG/7.jpg');
+  animation-delay: -24s;
+}
+
+.slide-eight {
+  background-image: url('IMG/8.jpg');
+  animation-delay: -28s;
+}
+
+.slide-nine {
+  background-image: url('IMG/9.jpg');
+  animation-delay: -32s;
+}
+
+.slide-ten {
+  background-image: url('IMG/10.jpg');
+  animation-delay: -36s;
+}
+
+.slide-eleven {
+  background-image: url('IMG/11.jpg');
+  animation-delay: -40s;
+}
+
+.slide-twelve {
+  background-image: url('IMG/12.jpg');
+  animation-delay: -44s;
+}
+
+.slide-thirteen {
+  background-image: url('IMG/13.jpg');
+  animation-delay: -48s;
+}
+
+.slide-fourteen {
+  background-image: url('IMG/14.jpg');
+  animation-delay: -52s;
+}
+
+.slide-fifteen {
+  background-image: url('IMG/15.jpg');
+  animation-delay: -56s;
+}
+
+.slide-sixteen {
+  background-image: url('IMG/16.jpg');
+  animation-delay: -60s;
 }
 
 /* Voile sombre et flou pour conserver un bon contraste avec le texte. */
