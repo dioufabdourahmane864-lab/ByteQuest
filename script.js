@@ -17,129 +17,144 @@ document.addEventListener('DOMContentLoaded', () => {
   // answer correspond à la position de la bonne réponse dans le tableau choices.
   const quizQuestions = [
     {
-      q: 'Qui est considéré comme le père de l’informatique ?',
-      choices: ['Alan Turing', 'Bill Gates', 'Steve Jobs', 'Linus Torvalds'],
-      answer: 0,
-      explanation: 'Alan Turing a posé les bases théoriques de l’informatique et de l’intelligence artificielle.',
-    },
-    {
       q: 'Que signifie HTML ?',
       choices: [
-        'High Text Machine Language',
         'HyperText Markup Language',
-        'Home Tool Markup Language',
-        'Hyper Transfer Method Language',
+        'High Transfer Machine Logic',
+        'Hyperlink Tool Method Language',
+        'Home Text Marking Language',
+      ],
+      answer: 0,
+      explanation: 'HTML est le langage de structure d’une page web : il organise le contenu avec des balises comme h1, p ou img.',
+    },
+    {
+      q: 'À quoi sert le CSS dans une page web ?',
+      choices: [
+        'À créer la structure du contenu',
+        'À gérer la mise en forme et le style',
+        'À stocker les données utilisateur',
+        'À exécuter des calculs côté serveur',
       ],
       answer: 1,
-      explanation: 'HTML signifie HyperText Markup Language. Il sert à structurer le contenu d’une page web.',
-    },
-    {
-      q: 'Combien de valeurs peut prendre un bit ?',
-      choices: ['1', '2', '8', '10'],
-      answer: 1,
-      explanation: 'Un bit ne peut avoir que deux valeurs : 0 ou 1.',
-    },
-    {
-      q: 'Quel langage sert à styliser une page web ?',
-      choices: ['JavaScript', 'CSS', 'Python', 'SQL'],
-      answer: 1,
-      explanation: 'CSS signifie Cascading Style Sheets et sert à mettre en forme les pages web.',
+      explanation: 'Le CSS sert à modifier la couleur, la taille, l’espacement et la disposition des éléments d’une page.',
     },
     {
       q: 'Quel langage permet de rendre une page web interactive ?',
-      choices: ['JavaScript', 'HTML', 'CSS', 'XML'],
-      answer: 0,
-      explanation: 'JavaScript permet d’ajouter des comportements et de modifier la page selon les actions de l’utilisateur.',
+      choices: ['HTML', 'CSS', 'JavaScript', 'SQL'],
+      answer: 2,
+      explanation: 'JavaScript ajoute des interactions comme des clics, des formulaires, des animations et des validations dynamiques.',
     },
     {
-      q: 'Que signifie CSS ?',
-      choices: ['Computer Style System', 'Cascading Style Sheets', 'Creative Sheet Syntax', 'Colorful Style System'],
-      answer: 1,
-      explanation: 'CSS signifie Cascading Style Sheets, ou feuilles de style en cascade.',
-    },
-    {
-      q: 'Quelle méthode sélectionne un élément grâce à son identifiant ?',
-      choices: ['querySelectorAll()', 'getElementById()', 'getElementsByClassName()', 'createElement()'],
-      answer: 1,
-      explanation: 'getElementById() recherche un seul élément HTML grâce à la valeur de son attribut id.',
-    },
-    {
-      q: 'Quelle instruction permet de créer une condition en JavaScript ?',
-      choices: ['if', 'repeat', 'choose', 'condition'],
-      answer: 0,
-      explanation: 'if permet d’exécuter un bloc de code uniquement lorsqu’une condition est vraie.',
-    },
-    {
-      q: 'Quelle boucle répète une action tant qu’une condition est vraie ?',
-      choices: ['for', 'if', 'switch', 'return'],
-      answer: 0,
-      explanation: 'La boucle for répète une instruction plusieurs fois, généralement avec un compteur.',
+      q: 'Quel opérateur vérifie une égalité stricte en JavaScript ?',
+      choices: ['=', '==', '===', '=>'],
+      answer: 2,
+      explanation: '=== vérifie à la fois la valeur et le type, sans conversion automatique comme ==.',
     },
     {
       q: 'Comment déclare-t-on une constante en JavaScript ?',
-      choices: ['constant', 'variable', 'const', 'final'],
-      answer: 2,
-      explanation: 'Le mot-clé const déclare une variable dont la référence ne doit pas être réassignée.',
+      choices: ['const', 'var', 'let', 'final'],
+      answer: 0,
+      explanation: 'const sert à déclarer une variable dont la valeur ne doit pas être réaffectée dans le programme.',
     },
     {
-      q: 'Quelle valeur représente l’absence de valeur ?',
-      choices: ['empty', 'null', 'zero', 'void'],
+      q: 'Quelle méthode permet d’ajouter un élément à la fin d’un tableau JavaScript ?',
+      choices: ['push()', 'append()', 'add()', 'concat()'],
+      answer: 0,
+      explanation: 'push() permet d’ajouter un ou plusieurs éléments à la fin du tableau et de modifier directement ce tableau.',
+    },
+    {
+      q: 'Que fait la commande git commit ?',
+      choices: [
+        'Elle clone un dépôt distant',
+        'Elle enregistre les modifications dans l’historique local',
+        'Elle supprime les fichiers modifiés',
+        'Elle télécharge les dépendances du projet',
+      ],
       answer: 1,
-      explanation: 'null représente volontairement une absence de valeur.',
+      explanation: 'git commit crée un instantané de l’état actuel des fichiers pour conserver l’historique local du projet.',
     },
     {
-      q: 'Quelle propriété modifie le contenu texte d’un élément ?',
-      choices: ['textContent', 'innerColor', 'valueText', 'htmlText'],
-      answer: 0,
-      explanation: 'textContent permet de lire ou de modifier le texte contenu dans un élément HTML.',
-    },
-    {
-      q: 'Quel événement se déclenche lorsqu’un utilisateur clique ?',
-      choices: ['hover', 'submit', 'click', 'press'],
+      q: 'Quel langage est utilisé pour interroger une base de données ?',
+      choices: ['HTML', 'CSS', 'SQL', 'JSON'],
       answer: 2,
-      explanation: 'L’événement click est déclenché lorsqu’un utilisateur clique sur un élément.',
+      explanation: 'SQL signifie Structured Query Language et sert à lire, écrire et manipuler des données dans une base.',
     },
     {
-      q: 'Quelle méthode ajoute un écouteur d’événement ?',
-      choices: ['addEventListener()', 'listen()', 'onEvent()', 'watchEvent()'],
-      answer: 0,
-      explanation: 'addEventListener() associe une fonction à un événement comme click ou submit.',
-    },
-    {
-      q: 'Quel symbole sert à écrire un commentaire sur une ligne ?',
-      choices: ['<!-- -->', '//', '/* */', '#'],
+      q: 'Quel est le rôle d’une balise <a> en HTML ?',
+      choices: ['Créer une image', 'Créer un lien hypertexte', 'Définir un titre', 'Ajouter un formulaire'],
       answer: 1,
-      explanation: 'En JavaScript, deux barres obliques // commencent un commentaire sur une seule ligne.',
+      explanation: 'La balise <a> sert à créer un lien vers une autre page, une section ou une ressource externe.',
     },
     {
-      q: 'Quel type de données contient plusieurs valeurs ordonnées ?',
-      choices: ['Boolean', 'Number', 'Array', 'String'],
+      q: 'Quelle propriété CSS modifie la couleur du texte ?',
+      choices: ['background-color', 'font-size', 'color', 'margin'],
       answer: 2,
-      explanation: 'Un tableau, appelé Array en JavaScript, contient plusieurs valeurs accessibles par index.',
+      explanation: 'La propriété color définit la couleur du texte d’un élément.',
     },
     {
-      q: 'Quel index correspond au premier élément d’un tableau ?',
-      choices: ['0', '1', '-1', 'first'],
-      answer: 0,
-      explanation: 'Les tableaux JavaScript commencent à l’index 0 : le premier élément est donc tableau[0].',
-    },
-    {
-      q: 'Quelle méthode ajoute un élément à la fin d’un tableau ?',
-      choices: ['start()', 'push()', 'addEnd()', 'append()'],
+      q: 'Quel est le type de données d’un résultat logique en JavaScript ?',
+      choices: ['String', 'Boolean', 'Number', 'Object'],
       answer: 1,
-      explanation: 'La méthode push() ajoute un ou plusieurs éléments à la fin d’un tableau.',
+      explanation: 'Un booléen ne peut prendre que deux valeurs : true ou false.',
     },
     {
-      q: 'Que renvoie une fonction avec return ?',
-      choices: ['Une valeur', 'Une boucle', 'Une classe CSS', 'Un événement'],
+      q: 'Quelle boucle repète une action tant qu’une condition est vraie ?',
+      choices: ['for', 'while', 'switch', 'return'],
+      answer: 1,
+      explanation: 'La boucle while continue à s’exécuter tant que la condition qu’elle teste reste vraie.',
+    },
+    {
+      q: 'Que représente un bit ?',
+      choices: ['Un octet', 'Une information binaire', 'Une ligne de code', 'Un script de base de données'],
+      answer: 1,
+      explanation: 'Un bit est la plus petite unité d’information et peut représenter deux états : 0 ou 1.',
+    },
+    {
+      q: 'Quel est le but d’une fonction en programmation ?',
+      choices: ['Créer un site web', 'Répéter un bloc de code selon un besoin précis', 'Stocker des images', 'Remplacer un navigateur'],
+      answer: 1,
+      explanation: 'Une fonction regroupe un ensemble d’instructions réutilisables pour réaliser une tâche précise.',
+    },
+    {
+      q: 'Quelle valeur est associée à l’absence de contenu en JavaScript ?',
+      choices: ['undefined', 'null', 'NaN', 'false'],
+      answer: 1,
+      explanation: 'null indique explicitement qu’une variable ne contient aucune valeur utile.',
+    },
+    {
+      q: 'Quelle méthode permet de sélectionner un élément HTML par son identifiant ?',
+      choices: ['document.querySelector()', 'document.getElementById()', 'document.createElement()', 'document.getElementsByTagName()'],
+      answer: 1,
+      explanation: 'getElementById() retourne l’élément unique dont l’attribut id correspond à la valeur demandée.',
+    },
+    {
+      q: 'Quel mot-clé permet d’exécuter un bloc de code si une condition est vraie ?',
+      choices: ['for', 'if', 'while', 'return'],
+      answer: 1,
+      explanation: 'if teste une condition puis exécute le code uniquement lorsque cette condition est vraie.',
+    },
+    {
+      q: 'Que signifie l’acronyme URL ?',
+      choices: ['User Resource Link', 'Uniform Resource Locator', 'Universal Request Layout', 'Unified Routing Language'],
+      answer: 1,
+      explanation: 'Une URL désigne l’adresse d’une ressource sur le web, comme une page ou un fichier.',
+    },
+    {
+      q: 'Quel est le rôle de Python dans le développement ?',
+      choices: ['C’est uniquement un langage de design graphique', 'C’est un langage polyvalent pour scripting et programmation', 'C’est un standard HTML', 'C’est un système de gestion de base de données'],
+      answer: 1,
+      explanation: 'Python est utilisé pour l’automatisation, l’analyse de données, le développement web et la programmation générale.',
+    },
+    {
+      q: 'Que fait la commande git clone ?',
+      choices: [
+        'Elle crée une copie locale d’un dépôt distant',
+        'Elle efface les branches existantes',
+        'Elle valide les fichiers en ligne',
+        'Elle fusionne automatiquement deux projets',
+      ],
       answer: 0,
-      explanation: 'return termine la fonction et renvoie une valeur au code qui l’a appelée.',
-    },
-    {
-      q: 'Quel opérateur vérifie une égalité stricte ?',
-      choices: ['=', '==', '===', '!=='],
-      answer: 2,
-      explanation: '=== compare à la fois la valeur et le type sans effectuer de conversion automatique.',
+      explanation: 'git clone permet de récupérer un projet distant sur votre machine pour commencer à travailler dessus.',
     },
   ];
 
@@ -486,45 +501,140 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('reset-message').textContent = 'Les données de test ont été réinitialisées.';
   });
 
-  document.getElementById('quiz-registration-form').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const nameInput = document.getElementById('participant-name');
-    const emailInput = document.getElementById('participant-email');
+  const authForm = document.getElementById('quiz-registration-form');
+  const authModeButtons = document.querySelectorAll('.auth-mode');
+  const authSwitchButton = document.getElementById('auth-switch-button');
+  const authSwitchText = document.getElementById('auth-switch-text');
+  const authSubmitButton = document.getElementById('quiz-auth-submit');
+  const signupNameWrapper = document.getElementById('signup-name-wrapper');
+  const participantNameInput = document.getElementById('participant-name');
+  const participantEmailInput = document.getElementById('participant-email');
+  const participantPasswordInput = document.getElementById('participant-password');
+
+  function setAuthMode(mode, preserveMessage = false) {
+    const isSignup = mode === 'signup';
+    authForm.dataset.authMode = mode;
+    authModeButtons.forEach((button) => {
+      const active = button.dataset.authMode === mode;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-selected', String(active));
+    });
+    signupNameWrapper.classList.toggle('is-hidden', !isSignup);
+    participantNameInput.required = isSignup;
+    participantPasswordInput.required = true;
+    authSubmitButton.textContent = isSignup ? "S'inscrire" : 'Se connecter';
+    authSwitchText.textContent = isSignup ? 'Vous avez déjà un compte ?' : 'Pas encore inscrit ?';
+    authSwitchButton.textContent = isSignup ? 'Se connecter' : 'Créer un compte';
     const message = document.getElementById('participant-message');
+    if (message && !preserveMessage) {
+      message.textContent = '';
+      message.className = 'form-message';
+    }
+    if (isSignup) {
+      participantNameInput.focus();
+    } else {
+      participantEmailInput.focus();
+    }
+  }
+
+  authModeButtons.forEach((button) => {
+    button.addEventListener('click', () => setAuthMode(button.dataset.authMode));
+  });
+
+  authSwitchButton.addEventListener('click', () => {
+    const nextMode = authForm.dataset.authMode === 'signup' ? 'login' : 'signup';
+    setAuthMode(nextMode);
+  });
+
+  authForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const nameInput = participantNameInput;
+    const emailInput = participantEmailInput;
+    const passwordInput = participantPasswordInput;
+    const message = document.getElementById('participant-message');
+    const mode = authForm.dataset.authMode || 'signup';
     const name = nameInput.value.trim();
     const email = emailInput.value.trim().toLowerCase();
+    const password = passwordInput.value.trim();
     const participants = getParticipants();
     const validName = /^(?=.*\p{L})[\p{L}]+(?:[ '\-][\p{L}]+)*$/u.test(name);
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-    if (!validName) {
-      message.className = 'form-message is-error';
-      message.textContent = 'Veuillez écrire un nom avec des lettres, pas un nombre seul.';
-      nameInput.focus();
+
+    if (mode === 'signup') {
+      if (!validName) {
+        message.className = 'form-message is-error';
+        message.textContent = 'Veuillez écrire un nom avec des lettres, pas un nombre seul.';
+        nameInput.focus();
+        return;
+      }
+      if (!validEmail) {
+        message.className = 'form-message is-error';
+        message.textContent = 'Veuillez écrire une adresse e-mail valide, par exemple nom@site.com.';
+        emailInput.focus();
+        return;
+      }
+      if (password.length < 6) {
+        message.className = 'form-message is-error';
+        message.textContent = 'Le mot de passe doit contenir au moins 6 caractères.';
+        passwordInput.focus();
+        return;
+      }
+      if (participants.some((item) => item.email === email)) {
+        message.className = 'form-message is-error';
+        message.textContent = 'Cette adresse e-mail est déjà enregistrée. Essayez de vous connecter.';
+        setAuthMode('login');
+        return;
+      }
+
+      const participant = { id: `participant-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, name, email, password };
+      participants.push(participant);
+      localStorage.setItem(participantsStorageKey, JSON.stringify(participants));
+      currentPlayerId = participant.id;
+      currentPlayerName = participant.name;
+      currentPlayerEmail = participant.email;
+      localStorage.setItem(participantSessionKey, JSON.stringify({ id: participant.id }));
+      authForm.reset();
+      message.className = 'form-message is-success';
+      message.textContent = 'Compte créé avec succès. Vous pouvez maintenant vous connecter.';
+      setAuthMode('login', true);
+      renderParticipants();
       return;
     }
+
     if (!validEmail) {
       message.className = 'form-message is-error';
-      message.textContent = 'Veuillez écrire une adresse e-mail valide, par exemple nom@site.com.';
+      message.textContent = 'Veuillez écrire une adresse e-mail valide pour vous connecter.';
       emailInput.focus();
       return;
     }
-    if (participants.some((item) => item.email === email)) {
+
+    const participant = participants.find((item) => item.email === email);
+    if (!participant) {
       message.className = 'form-message is-error';
-      message.textContent = 'Cette adresse e-mail est déjà enregistrée.';
+      message.textContent = 'Aucun compte trouvé pour cette adresse. Créez un compte pour commencer.';
+      setAuthMode('signup', true);
       return;
     }
-    participants.push({ id: `participant-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, name, email });
-    const participant = participants[participants.length - 1];
-    localStorage.setItem(participantsStorageKey, JSON.stringify(participants));
+
+    if (participant.password !== password) {
+      message.className = 'form-message is-error';
+      message.textContent = 'Le mot de passe est incorrect.';
+      passwordInput.focus();
+      return;
+    }
+
     currentPlayerId = participant.id;
     currentPlayerName = participant.name;
     currentPlayerEmail = participant.email;
     localStorage.setItem(participantSessionKey, JSON.stringify({ id: participant.id }));
-    event.target.reset();
+    authForm.reset();
     message.className = 'form-message is-success';
-    message.textContent = 'Participant ajouté.';
+    message.textContent = 'Connexion réussie.';
     renderParticipants();
+    renderStats();
   });
+
+  setAuthMode('signup');
 
   window.addEventListener('storage', (event) => {
     if ([participantsStorageKey, quizStorageKey, participantSessionKey].includes(event.key)) {

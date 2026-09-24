@@ -176,19 +176,44 @@
               <span><strong>Sans limite</strong> temps</span>
             </div>
             <div id="quiz-auth" class="quiz-auth">
+              <div
+                class="auth-mode-switch"
+                role="tablist"
+                aria-label="Sélection du mode d'inscription"
+              >
+                <button
+                  type="button"
+                  class="auth-mode is-active"
+                  data-auth-mode="signup"
+                  aria-selected="true"
+                >
+                  Inscription
+                </button>
+                <button
+                  type="button"
+                  class="auth-mode"
+                  data-auth-mode="login"
+                  aria-selected="false"
+                >
+                  Se connecter
+                </button>
+              </div>
               <form
                 id="quiz-registration-form"
                 class="participant-form"
+                data-auth-mode="signup"
                 novalidate
               >
-                <label for="participant-name">Nom</label>
-                <input
-                  id="participant-name"
-                  type="text"
-                  maxlength="80"
-                  placeholder="Ex. : Amina Diop"
-                  required
-                />
+                <div id="signup-name-wrapper" class="auth-field">
+                  <label for="participant-name">Nom</label>
+                  <input
+                    id="participant-name"
+                    type="text"
+                    maxlength="80"
+                    placeholder="Ex. : Amina Diop"
+                    required
+                  />
+                </div>
                 <label for="participant-email">E-mail</label>
                 <input
                   id="participant-email"
@@ -196,9 +221,33 @@
                   placeholder="exemple@email.com"
                   required
                 />
-                <button class="secondary-action" type="submit">
+                <div id="signup-password-wrapper" class="auth-field">
+                  <label for="participant-password">Mot de passe</label>
+                  <input
+                    id="participant-password"
+                    type="password"
+                    minlength="6"
+                    placeholder="Au moins 6 caractères"
+                    required
+                  />
+                </div>
+                <button
+                  id="quiz-auth-submit"
+                  class="secondary-action"
+                  type="submit"
+                >
                   S'inscrire
                 </button>
+                <p class="auth-switch-line">
+                  <span id="auth-switch-text">Vous avez déjà un compte ?</span>
+                  <button
+                    id="auth-switch-button"
+                    type="button"
+                    class="text-link"
+                  >
+                    Se connecter
+                  </button>
+                </p>
                 <p
                   id="participant-message"
                   class="form-message"
