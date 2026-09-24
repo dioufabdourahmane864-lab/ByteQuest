@@ -2,15 +2,17 @@ BYTEQUEST - Application interactive JavaScript et DOM
 
 Principe :
 ByteQuest est une application interactive qui permet de réviser les bases de l'informatique :
-- Un quiz sur les concepts fondamentaux
-- Un convertisseur décimal/binaire/hexadécimal
-- Des flashcards de révision
-- Une visualisation animée de l'algorithme de tri à bulles
+- Un quiz sur les concepts fondamentaux avec score final
+- Un outil de conversion et de calcul en bases binaire, octale, décimale et hexadécimale
+- Des flashcards de révision avec catégories et suivi de compréhension
+- Des statistiques et un classement conservés sur l'appareil
 
 Utilisation :
 Ouvrir le fichier index.html dans un navigateur, puis choisir un module dans le menu.
-Dans le quiz, sélectionner une réponse. Dans le convertisseur, saisir un entier positif
-ou nul. Cliquer sur une flashcard pour la retourner et utiliser les boutons du module Tri.
+Dans le quiz, renseigner son identité, sélectionner une réponse et la valider. Dans le
+convertisseur, saisir un nombre valide pour la base choisie. Dans Conversion et calcul,
+choisir une base et une opération. Dans les flashcards, cliquer sur « Voir la réponse »,
+puis indiquer si la notion est comprise ou à revoir.
 
 Conformité au cahier des charges :
 Les données sont statiques et stockées dans des tableaux d'objets JavaScript. Les
@@ -23,9 +25,8 @@ Explication du code pour la présentation :
 - displayQuestion crée la question et ses boutons avec JavaScript dans le DOM.
 - checkAnswer compare la réponse choisie avec la bonne réponse, change les couleurs,
   met à jour le score et affiche une explication en cas d'erreur.
-- displayCard affiche une carte et son événement click permet de voir le verso.
-- Le formulaire du convertisseur intercepte submit et affiche les conversions sans recharger.
-- generateArray crée les barres du tri avec une boucle, puis bubbleSort les compare et les échange.
+- displayFlashcard affiche une carte et les boutons permettent de voir la réponse et de naviguer.
+- Le formulaire Conversion et calcul intercepte submit et affiche les conversions et calculs sans recharger.
 
 Auteur : Abdourahmane Diouf
 Date : Septembre 2026

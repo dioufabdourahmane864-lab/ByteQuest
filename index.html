@@ -15,7 +15,7 @@
     <title>ByteQuest | Réviser l'informatique</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
+  <body class="welcome-active">
     <!--
       Ces éléments ne contiennent pas de texte : ils servent de couches
       visuelles. Le CSS leur attribue une image et les fait apparaître à tour de rôle.
@@ -40,6 +40,9 @@
     </div>
 
     <!--
+            <div>
+              <span>Participants ayant réussi</span><strong id="stats-successful">0</strong>
+            </div>
       Écran d'accueil affiché au-dessus de l'application au chargement.
       JavaScript lui ajoute la classe is-hidden après le clic sur le bouton.
     -->
@@ -69,15 +72,14 @@
         </h1>
         <p class="welcome-slogan">Apprends. Teste. Progresse.</p>
         <p class="welcome-description">
-          Une expérience interactive pour explorer les bases du numérique à ton
-          rythme.
+          Une plateforme pour apprendre, s'entraîner et mesurer ses progrès en
+          informatique, à ton rythme.
         </p>
         <!-- L'identifiant start-app permet à JavaScript de récupérer ce bouton. -->
         <button class="welcome-button" id="start-app" type="button">
           Commencer l'aventure
           <span aria-hidden="true">&rarr;</span>
         </button>
-        <p class="welcome-hint">Quiz, conversion, flashcards et statistiques</p>
       </div>
     </section>
 
@@ -85,126 +87,481 @@
     <div class="app">
       <!-- En-tête : nom de l'application et menu de navigation. -->
       <header class="topbar">
-        <div>
-          <p class="eyebrow">Mini-projet JavaScript &amp; DOM</p>
-          <h1>ByteQuest</h1>
-          <p class="intro">
-            Révisez, convertissez et observez des algorithmes en action.
-          </p>
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">BQ</div>
+          <div>
+            <p class="eyebrow">Mini-projet JavaScript &amp; DOM</p>
+            <h1>ByteQuest</h1>
+            <p class="intro">Apprendre. Pratiquer. Progresser.</p>
+          </div>
         </div>
 
         <!-- Chaque bouton affiche un module grâce à son attribut data-module. -->
-        <nav class="menu" aria-label="Navigation principale">
+        <button
+          class="menu-toggle"
+          id="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="main-menu"
+          aria-label="Ouvrir le menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
+        <nav class="menu" id="main-menu" aria-label="Navigation principale">
           <button
-            class="nav-btn active"
+            type="button"
+            class="nav-btn nav-home active"
             data-module="quiz"
             aria-controls="quiz"
           >
-            Quiz
-          </button>
-          <button class="nav-btn" data-module="convert" aria-controls="convert">
-            Convertisseur
+            <span aria-hidden="true">⌂</span> Accueil
           </button>
           <button
+            type="button"
+            class="nav-btn"
+            data-module="quiz"
+            aria-controls="quiz"
+          >
+            <span aria-hidden="true">?</span> Quiz
+          </button>
+          <button
+            type="button"
+            class="nav-btn"
+            data-module="convert"
+            aria-controls="convert"
+          >
+            <span aria-hidden="true">↔</span> Calcul
+          </button>
+          <button
+            type="button"
             class="nav-btn"
             data-module="flashcards"
             aria-controls="flashcards"
           >
-            Flashcards
+            <span aria-hidden="true">▣</span> Flashcards
           </button>
-          <button class="nav-btn" data-module="stats" aria-controls="stats">
-            Statistiques
+          <button
+            type="button"
+            class="nav-btn"
+            data-module="stats"
+            aria-controls="stats"
+          >
+            <span aria-hidden="true">↗</span> Statistiques
+          </button>
+          <button
+            type="button"
+            class="nav-btn"
+            data-module="participants"
+            aria-controls="participants"
+          >
+            <span aria-hidden="true">•••</span> Participants
           </button>
         </nav>
       </header>
 
       <main>
-        <!-- Module 1 : le quiz est visible au démarrage. -->
+        <!-- Module 1 : parcours interactif du quiz. -->
         <section id="quiz" class="module active" aria-labelledby="quiz-title">
-          <h2 id="quiz-title">Quiz informatique</h2>
-          <!-- JavaScript insère ici la question et les boutons de réponse. -->
-          <div id="quiz-content"></div>
-          <!-- Cette zone affiche le score global du quiz. -->
-          <p id="quiz-score">Score : 0 / 20</p>
-        </section>
+          <div id="quiz-intro" class="quiz-intro">
+            <span class="learning-badge">Évaluation interactive</span>
+            <h2 id="quiz-title">Quiz informatique</h2>
+            <p>
+              Testez vos connaissances, recevez une correction immédiate et
+              identifiez les notions à renforcer.
+            </p>
+            <div class="quiz-meta-grid">
+              <span><strong>20</strong> questions</span>
+              <span><strong>Débutant</strong> niveau</span>
+              <span><strong>Informatique</strong> matière</span>
+              <span><strong>Sans limite</strong> temps</span>
+            </div>
+            <div id="quiz-auth" class="quiz-auth">
+              <form
+                id="quiz-registration-form"
+                class="participant-form"
+                novalidate
+              >
+                <label for="participant-name">Nom</label>
+                <input
+                  id="participant-name"
+                  type="text"
+                  maxlength="80"
+                  placeholder="Ex. : Amina Diop"
+                  required
+                />
+                <label for="participant-email">E-mail</label>
+                <input
+                  id="participant-email"
+                  type="email"
+                  placeholder="exemple@email.com"
+                  required
+                />
+                <button class="secondary-action" type="submit">
+                  S'inscrire
+                </button>
+                <p
+                  id="participant-message"
+                  class="form-message"
+                  aria-live="polite"
+                ></p>
+              </form>
+            </div>
+            <button id="start-quiz" class="primary-action" type="button">
+              Commencer le Quiz
+            </button>
+          </div>
 
-        <!-- Module 2 : conversion d'un nombre décimal. -->
-        <section id="convert" class="module" aria-labelledby="convert-title">
-          <h2 id="convert-title">Convertisseur</h2>
-          <!-- L'événement submit de ce formulaire est traité par JavaScript. -->
-          <form class="converter-box" id="converter-form">
-            <label for="decimal-input">Nombre décimal</label>
-            <input
-              type="number"
-              id="decimal-input"
-              min="0"
-              placeholder="Ex. : 42"
-            />
-            <button id="convert-btn" type="submit">Convertir</button>
-          </form>
-          <!-- Le résultat de la conversion est créé ici sans recharger la page. -->
           <div
-            id="conversion-result"
-            class="result-box"
+            id="quiz-content"
+            class="quiz-study is-hidden"
+            aria-live="polite"
+          ></div>
+          <div
+            id="quiz-result"
+            class="quiz-result is-hidden"
             aria-live="polite"
           ></div>
         </section>
 
-        <!-- Module 3 : cartes à retourner pour réviser. -->
+        <!-- Module 2 : conversion et calculs entre bases. -->
+        <section id="convert" class="module" aria-labelledby="convert-title">
+          <h2 id="convert-title">Conversion et calcul</h2>
+          <div class="converter-cards">
+            <form class="converter-card" id="converter-form">
+              <div class="card-heading">
+                <span class="card-icon" aria-hidden="true">↔</span>
+                <div>
+                  <p class="card-kicker">Base numérique</p>
+                  <h3>Conversion de nombres</h3>
+                </div>
+              </div>
+              <div class="field-grid conversion-fields">
+                <div>
+                  <label for="conversion-number">Nombre</label>
+                  <input
+                    id="conversion-number"
+                    type="text"
+                    inputmode="text"
+                    placeholder="Ex. : 1010"
+                    autocomplete="off"
+                  />
+                </div>
+                <div>
+                  <label for="conversion-base">Base d'origine</label>
+                  <select id="conversion-base">
+                    <option value="2">Binaire (base 2)</option>
+                    <option value="8">Octale (base 8)</option>
+                    <option value="10" selected>Décimale (base 10)</option>
+                    <option value="16">Hexadécimale (base 16)</option>
+                  </select>
+                </div>
+              </div>
+              <button id="convert-btn" type="submit">Convertir</button>
+              <p
+                class="form-message"
+                id="conversion-result"
+                aria-live="polite"
+              ></p>
+              <div class="table-wrapper">
+                <table class="number-table conversion-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Base</th>
+                      <th scope="col">Valeur</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Binaire (2)</th>
+                      <td id="conversion-binary">-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Octale (8)</th>
+                      <td id="conversion-octal">-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Décimale (10)</th>
+                      <td id="conversion-decimal">-</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Hexadécimale (16)</th>
+                      <td id="conversion-hexadecimal">-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
+
+            <form class="converter-card" id="calculation-form">
+              <div class="card-heading">
+                <span class="card-icon" aria-hidden="true">±</span>
+                <div>
+                  <p class="card-kicker">Arithmétique</p>
+                  <h3>Calcul entre nombres</h3>
+                </div>
+              </div>
+              <div class="calculation-settings">
+                <div>
+                  <label for="calculation-base">Base de calcul</label>
+                  <select id="calculation-base">
+                    <option value="2">Binaire (base 2)</option>
+                    <option value="8">Octale (base 8)</option>
+                    <option value="10" selected>Décimale (base 10)</option>
+                    <option value="16">Hexadécimale (base 16)</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="calculation-operation">Opération</label>
+                  <select id="calculation-operation" aria-label="Opération">
+                    <option value="+">+ Addition</option>
+                    <option value="-">- Soustraction</option>
+                    <option value="*">× Multiplication</option>
+                    <option value="/">÷ Division</option>
+                  </select>
+                </div>
+              </div>
+              <div class="calculation-inputs">
+                <div>
+                  <label for="first-number">Premier nombre</label>
+                  <input
+                    id="first-number"
+                    type="text"
+                    inputmode="text"
+                    placeholder="Ex. : 1010"
+                    autocomplete="off"
+                  />
+                </div>
+                <span
+                  class="operation-preview"
+                  id="operation-preview"
+                  aria-hidden="true"
+                  >+</span
+                >
+                <div>
+                  <label for="second-number">Deuxième nombre</label>
+                  <input
+                    id="second-number"
+                    type="text"
+                    inputmode="text"
+                    placeholder="Ex. : 11"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+              <button id="calculate-btn" type="submit">Calculer</button>
+              <div
+                class="calculation-output"
+                id="calculation-result"
+                aria-live="polite"
+              >
+                <p class="form-message"></p>
+                <p class="equation" id="calculation-equation">
+                  Le résultat apparaîtra ici.
+                </p>
+                <p class="decimal-explanation" id="calculation-explanation"></p>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Module 3 : parcours pédagogique de flashcards. -->
         <section
           id="flashcards"
           class="module"
           aria-labelledby="flashcards-title"
         >
-          <h2 id="flashcards-title">Flashcards</h2>
-          <!-- JavaScript affiche ici la carte actuellement sélectionnée. -->
-          <div id="cards-container" class="flashcards-box"></div>
-          <button id="next-card">Carte suivante</button>
-        </section>
-
-        <!-- Module 4 : statistiques de progression du quiz. -->
-        <section id="stats" class="module" aria-labelledby="stats-title">
-          <h2 id="stats-title">Statistiques du quiz</h2>
-          <p class="stats-intro">Suivez vos résultats au fil des réponses.</p>
-          <!-- aria-live informe les technologies d'assistance quand les chiffres changent. -->
-          <div class="stats-grid" aria-live="polite">
-            <article class="stat-card">
-              <span class="stat-label">Score</span>
-              <strong id="stats-score">0 / 20</strong>
-            </article>
-            <article class="stat-card">
-              <span class="stat-label">Réussite</span>
-              <strong id="stats-percentage">0 %</strong>
-            </article>
-            <article class="stat-card">
-              <span class="stat-label">Bonnes réponses</span>
-              <strong id="stats-correct">0</strong>
-            </article>
-            <article class="stat-card">
-              <span class="stat-label">Erreurs</span>
-              <strong id="stats-wrong">0</strong>
-            </article>
-          </div>
-          <div class="progress-box">
-            <div class="progress-heading">
-              <span>Progression</span>
-              <span id="stats-answered">0 / 20 questions</span>
+          <div id="flashcards-intro" class="flashcards-intro">
+            <span class="learning-badge">Mode apprentissage</span>
+            <h2 id="flashcards-title">Mode Flashcards</h2>
+            <p>
+              Testez vos connaissances et apprenez progressivement. Lisez la
+              question, réfléchissez, puis révélez la réponse et son
+              explication.
+            </p>
+            <div class="flashcards-start-options">
+              <label for="flashcard-category">Choisir une catégorie</label>
+              <select id="flashcard-category">
+                <option value="all">Toutes les catégories</option>
+                <option value="algorithmique">Algorithmique</option>
+                <option value="bases">Bases numériques</option>
+                <option value="programmation">Programmation</option>
+                <option value="web">Informatique et web</option>
+              </select>
             </div>
-            <!-- Barre dont la largeur est modifiée par JavaScript selon la progression. -->
+            <button id="start-flashcards" class="primary-action" type="button">
+              Commencer les Flashcards
+            </button>
+          </div>
+
+          <div id="flashcards-study" class="flashcards-study is-hidden">
+            <div class="flashcards-toolbar">
+              <div>
+                <span class="card-kicker">Parcours en cours</span>
+                <strong id="flashcard-category-label"
+                  >Toutes les catégories</strong
+                >
+              </div>
+              <button
+                id="reset-flashcards"
+                class="secondary-action"
+                type="button"
+              >
+                Recommencer
+              </button>
+            </div>
+            <div class="flashcard-progress-heading">
+              <span id="flashcard-progress-label">Carte 1 / 19</span>
+              <span id="flashcard-progress-percent">0 %</span>
+            </div>
             <div
-              class="progress-track"
+              class="flashcard-progress-track"
               role="progressbar"
-              aria-label="Progression du quiz"
+              aria-label="Progression des flashcards"
               aria-valuemin="0"
-              aria-valuemax="20"
+              aria-valuemax="100"
               aria-valuenow="0"
             >
-              <div id="stats-progress" class="progress-bar"></div>
+              <div
+                id="flashcard-progress-bar"
+                class="flashcard-progress-bar"
+              ></div>
+            </div>
+
+            <article id="flashcard-card" class="learning-card">
+              <div class="learning-card-topline">
+                <span id="flashcard-number">FLASHCARD 01</span>
+                <span id="flashcard-category-badge" class="category-pill"
+                  >Algorithmique</span
+                >
+              </div>
+              <div id="flashcard-question-view">
+                <p class="content-label">Question</p>
+                <h3 id="flashcard-question"></h3>
+                <p class="thinking-prompt">
+                  Réfléchissez quelques secondes avant de révéler la réponse.
+                </p>
+                <button id="reveal-answer" class="primary-action" type="button">
+                  Voir la réponse
+                </button>
+              </div>
+              <div id="flashcard-answer-view" class="is-hidden">
+                <div class="learning-section answer-section">
+                  <p class="content-label">Réponse</p>
+                  <p id="flashcard-answer"></p>
+                </div>
+                <div class="learning-section">
+                  <p class="content-label">Explication simple</p>
+                  <p id="flashcard-explanation"></p>
+                </div>
+                <div class="learning-section example-section">
+                  <p class="content-label">Exemple</p>
+                  <p id="flashcard-example"></p>
+                </div>
+                <div class="takeaway-section">
+                  <p class="content-label">À retenir</p>
+                  <p id="flashcard-takeaway"></p>
+                </div>
+                <div class="self-check">
+                  <p>Avez-vous compris cette notion ?</p>
+                  <div class="self-check-actions">
+                    <button
+                      id="understood-card"
+                      class="success-action"
+                      type="button"
+                    >
+                      Oui, j'ai compris
+                    </button>
+                    <button
+                      id="review-card"
+                      class="review-action"
+                      type="button"
+                    >
+                      À revoir
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <div class="flashcard-navigation">
+              <button id="previous-card" class="secondary-action" type="button">
+                ← Carte précédente
+              </button>
+              <button id="next-card" class="primary-action" type="button">
+                Carte suivante →
+              </button>
+            </div>
+            <div class="learning-score" aria-live="polite">
+              <span>✅ <strong id="understood-count">0</strong> comprises</span>
+              <span>🔄 <strong id="review-count">0</strong> à revoir</span>
             </div>
           </div>
-          <p id="stats-message" class="stats-message">
-            Répondez à une question pour commencer.
+        </section>
+
+        <!-- Module 4 : statistiques individuelles des participants. -->
+        <section id="stats" class="module" aria-labelledby="stats-title">
+          <h2 id="stats-title">Statistiques des participants</h2>
+          <p id="stats-message" class="stats-intro">
+            Chaque résultat apparaît automatiquement après la fin d'un quiz.
           </p>
+          <div
+            id="my-statistics"
+            class="participant-stat-card"
+            aria-live="polite"
+          ></div>
+          <div class="stats-section">
+            <h3>Résultats de chaque participant</h3>
+            <div class="history-table-wrapper">
+              <table class="history-table participant-results-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Participant</th>
+                    <th scope="col">Pseudo</th>
+                    <th scope="col">Quiz</th>
+                    <th scope="col">Score</th>
+                    <th scope="col">Pourcentage</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody id="participant-statistics-list"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="participants"
+          class="module"
+          aria-labelledby="participants-title"
+        >
+          <h2 id="participants-title">Participants</h2>
+          <p class="stats-intro">
+            Retrouvez les participants inscrits et leurs scores en temps réel.
+          </p>
+          <div class="participant-management">
+            <div class="participant-list-panel">
+              <h3>Liste des participants</h3>
+              <div class="history-table-wrapper">
+                <table class="history-table participants-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Nom</th>
+                      <th scope="col">E-mail</th>
+                      <th scope="col">Quiz</th>
+                      <th scope="col">Score moyen</th>
+                      <th scope="col">Dernier score</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="participants-list"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <button id="reset-data" class="danger-action" type="button">
+            Réinitialiser les données de test
+          </button>
+          <p id="reset-message" class="form-message" aria-live="polite"></p>
         </section>
       </main>
     </div>
