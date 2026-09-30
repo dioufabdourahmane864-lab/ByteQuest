@@ -324,6 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }[character]));
   }
 
+  // Transforme une durée en minutes et secondes pour l'affichage.
   function formatDuration(seconds) {
     const minutes = Math.floor(seconds / 60);
     return `${minutes}:${String(seconds % 60).padStart(2, '0')}`;
@@ -338,6 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
       || new Date(first.date) - new Date(second.date));
   }
 
+  // Ajoute à chaque résultat sa position dans le classement.
   function getRankedResults(quizName = 'all') {
     const results = quizName === 'all'
       ? getQuizHistory()
@@ -417,6 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Affiche les participants et leurs résultats dans le tableau.
   function renderParticipants() {
     const participants = getParticipants();
     const history = getQuizHistory();
@@ -511,6 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const participantEmailInput = document.getElementById('participant-email');
   const participantPasswordInput = document.getElementById('participant-password');
 
+  // Met à jour le formulaire selon le mode inscription ou connexion.
   function setAuthMode(mode, preserveMessage = false) {
     const isSignup = mode === 'signup';
     authForm.dataset.authMode = mode;
@@ -546,6 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setAuthMode(nextMode);
   });
 
+  // Valide les champs puis crée un compte ou connecte le participant.
   authForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const nameInput = participantNameInput;
@@ -636,6 +641,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setAuthMode('signup');
 
+  // Actualise les résultats si une autre page modifie les données enregistrées.
   window.addEventListener('storage', (event) => {
     if ([participantsStorageKey, quizStorageKey, participantSessionKey].includes(event.key)) {
       renderStats();

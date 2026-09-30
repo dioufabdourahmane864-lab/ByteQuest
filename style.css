@@ -593,6 +593,7 @@ main {
   font-size: 1rem;
 }
 
+/* Formulaire d'inscription et affichage des réponses du quiz. */
 .player-name-field {
   display: grid;
   max-width: 360px;
@@ -1091,6 +1092,7 @@ select option {
   font-size: 0.9rem;
 }
 
+/* Mise en page des convertisseurs sur les écrans plus petits. */
 @media (max-width: 820px) {
   .converter-cards {
     grid-template-columns: 1fr;
@@ -1141,6 +1143,7 @@ select option {
   text-align: center;
 }
 
+/* Boutons, progression et contenu des flashcards. */
 .learning-badge {
   display: inline-block;
   margin-bottom: 14px;
@@ -1402,6 +1405,7 @@ select option {
   background: rgba(56, 189, 248, 0.1);
 }
 
+/* Tableaux des résultats, participants et classements. */
 .participant-stat-card strong {
   color: var(--text);
   font-size: 1.15rem;
@@ -1739,7 +1743,10 @@ body {
   color: var(--text);
 }
 
-.background-slideshow,
+.background-slideshow {
+  display: block;
+}
+
 body::after {
   display: none;
 }
@@ -1822,6 +1829,7 @@ body::after {
   font-size: 0.92rem;
 }
 
+/* Ajustements pour les petits écrans et les animations réduites. */
 .welcome-feature>span:last-child {
   color: var(--muted);
   font-size: 0.75rem;
@@ -1872,19 +1880,18 @@ body::after {
 
 .app {
   max-width: 1180px;
-  padding-top: 28px;
+  padding-top: 132px;
 }
 
 .topbar {
   position: fixed;
-  top: 16px;
-  left: 50%;
+  top: 0;
+  left: 0;
   z-index: 5;
-  width: min(calc(100% - 32px), 1144px);
-  transform: translateX(-50%);
-  padding: 14px 18px;
+  width: 100%;
+  padding: max(14px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) 14px max(18px, env(safe-area-inset-left));
   border: 1px solid var(--line);
-  border-radius: 16px;
+  border-radius: 0 0 16px 16px;
   background: rgba(18, 26, 42, 0.96);
   box-shadow: var(--shadow);
   backdrop-filter: blur(14px);
@@ -1894,7 +1901,7 @@ body::after {
 .topbar.nav-hidden {
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -130%);
+  transform: translateY(-130%);
 }
 
 .brand-block {
@@ -2222,14 +2229,13 @@ label {
   }
 
   .topbar {
-    top: 8px;
-    width: min(calc(100% - 16px), 1144px);
+    top: 0;
   }
 }
 
 @media (max-width: 650px) {
   .app {
-    padding-top: 12px;
+    padding-top: 124px;
   }
 
   .topbar {
