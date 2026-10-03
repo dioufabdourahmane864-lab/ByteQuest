@@ -2320,3 +2320,23 @@ label {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Pied de page parfaitement centré */
+.app-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+/* Effet de survol sur les cartes pour améliorer l'UX */
+.learning-card:hover,
+.converter-card:hover {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
