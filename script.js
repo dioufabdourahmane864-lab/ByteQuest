@@ -1029,6 +1029,14 @@ document.addEventListener('DOMContentLoaded', () => {
     updateFlashcardCounters();
     nextCardButton.click();
   });
+  
+  // UX : Efface le message d'erreur dès que l'utilisateur commence à corriger sa saisie
+  if (conversionNumber) {
+    conversionNumber.addEventListener('input', () => {
+      conversionResult.textContent = '';
+      conversionResult.className = 'form-message';
+    });
+  }
 
   /*
     Initialisation : on restaure le participant, puis on affiche les statistiques.
