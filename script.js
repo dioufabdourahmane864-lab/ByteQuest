@@ -648,7 +648,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Génère dynamiquement la question et ses boutons de réponse dans le DOM.
+  // Génère dynamiquement la question et ses boutons de réponse dans le DOM
+  // EXIGENCE : Mise à jour visible du DOM et utilisation de boucles.
   function displayQuestion() {
     const question = quizQuestions[currentQuestion];
     const previousAnswer = userAnswers[currentQuestion];
@@ -699,7 +700,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (reviewButton) reviewButton.addEventListener('click', () => openFlashcardForQuestion(question.q));
   }
 
-  // Compare la réponse choisie à la bonne réponse et met à jour le score.
+  // Compare la réponse choisie à la bonne réponse et met à jour le score
+  // EXIGENCE : Structure conditionnelle et interaction utilisateur.
   function checkAnswer(selectedIndex) {
     if (selectedIndex === null || selectedIndex === undefined || validatedAnswers[currentQuestion] !== null) return;
     const question = quizQuestions[currentQuestion];
