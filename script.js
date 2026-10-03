@@ -666,7 +666,8 @@ document.addEventListener('DOMContentLoaded', () => {
         <div id="quiz-feedback"></div>
       </div>`;
     const choicesContainer = quizContent.querySelector('.quiz-choices');
-    // Une boucle crée un bouton pour chaque proposition de réponse.
+    // Une boucle crée un bouton pour chaque proposition de réponse
+    //  Boucle pour générer plusieurs éléments à l'écran.
     question.choices.forEach((choice, index) => {
       const answerButton = document.createElement('button');
       answerButton.className = `answer-btn ${previousAnswer === index ? 'selected' : ''}`;
@@ -831,6 +832,7 @@ document.addEventListener('DOMContentLoaded', () => {
     conversionOctal.textContent = formatBaseNumber(parsed.value, 8);
     conversionDecimal.textContent = parsed.value;
     conversionHexadecimal.textContent = formatBaseNumber(parsed.value, 16);
+    conversionNumber.value = ''; // Efface le champ pour une nouvelle saisie (UX)
     conversionResult.className = 'form-message is-success';
     conversionResult.textContent = `Conversion réussie depuis la base ${base}.`;
   });
