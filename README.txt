@@ -16,3 +16,8 @@ CONFORMITÉ AU CAHIER DES CHARGES :
 - Interactions utilisateur (clics, saisies, soumission de formulaire) déclenchant des mises à jour du DOM.
 - Utilisation de structures conditionnelles (if/else) et de boucles (for, forEach, map).
 - Code organisé en fonctions claires et distinctes.
+
+TECHNOLOGIES UTILISÉES :
+- HTML5 : Structure sémantique et attributs d'accessibilité (aria, lang, title).
+- CSS3 : Variables CSS, Flexbox, Grid, animations et design responsive.
+- JavaScript ES6+ : Manipulation du DOM, gestion des événements, LocalStorage, fonctions fléchées et template literals.
