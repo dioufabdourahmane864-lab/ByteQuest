@@ -1,32 +1,18 @@
-BYTEQUEST - Application interactive JavaScript et DOM
+PROJET : ByteQuest - Application interactive JavaScript & DOM
+ÉTUDIANT : Abdourahmane Diouf - L1 Informatique
 
-Principe :
-ByteQuest est une application interactive qui permet de réviser les bases de l'informatique :
-- Un quiz sur les concepts fondamentaux avec score final
-- Un outil de conversion et de calcul en bases binaire, octale, décimale et hexadécimale
-- Des flashcards de révision avec catégories et suivi de compréhension
-- Des statistiques et un classement conservés sur l'appareil
+PRINCIPE DE L'APPLICATION :
+ByteQuest est une plateforme d'apprentissage interactive permettant de réviser les bases de l'informatique. Elle propose plusieurs modules : un Quiz à choix multiples avec calcul du score, un Convertisseur et calculatrice de bases numériques, des Flashcards de mémorisation, ainsi qu'un tableau de bord pour le suivi des statistiques et des participants.
 
-Utilisation :
-Ouvrir le fichier index.html dans un navigateur, puis choisir un module dans le menu.
-Dans le quiz, renseigner son identité, sélectionner une réponse et la valider. Dans le
-convertisseur, saisir un nombre valide pour la base choisie. Dans Conversion et calcul,
-choisir une base et une opération. Dans les flashcards, cliquer sur « Voir la réponse »,
-puis indiquer si la notion est comprise ou à revoir.
+COMMENT L'UTILISER :
+1. Ouvrir le fichier index.html dans un navigateur web.
+2. Cliquer sur "Commencer l'aventure".
+3. Naviguer entre les modules via le menu supérieur.
+4. Interagir avec les formulaires et les boutons (le contenu de la page se met à jour dynamiquement sans rechargement).
 
-Conformité au cahier des charges :
-Les données sont statiques et stockées dans des tableaux d'objets JavaScript. Les
-interactions utilisent des événements, des conditions, des boucles, des fonctions et
-des modifications du DOM, sans rechargement de la page ni bibliothèque externe.
-
-Explication du code pour la présentation :
-- DOMContentLoaded attend que la page HTML soit chargée avant d'exécuter le script.
-- quizQuestions et flashcardsData sont les tableaux d'objets contenant les données statiques.
-- displayQuestion crée la question et ses boutons avec JavaScript dans le DOM.
-- checkAnswer compare la réponse choisie avec la bonne réponse, change les couleurs,
-  met à jour le score et affiche une explication en cas d'erreur.
-- displayFlashcard affiche une carte et les boutons permettent de voir la réponse et de naviguer.
-- Le formulaire Conversion et calcul intercepte submit et affiche les conversions et calculs sans recharger.
-
-Auteur : Abdourahmane Diouf
-Date : Septembre 2026
+CONFORMITÉ AU CAHIER DES CHARGES :
+- JavaScript pur (aucun framework ni librairie externe).
+- Données statiques (tableaux d'objets JavaScript pour le quiz et les flashcards).
+- Interactions utilisateur (clics, saisies, soumission de formulaire) déclenchant des mises à jour du DOM.
+- Utilisation de structures conditionnelles (if/else) et de boucles (for, forEach, map).
+- Code organisé en fonctions claires et distinctes.
