@@ -16,7 +16,7 @@
   --shadow: rgba(2, 8, 23, 0.55);
 }
 
-/* box-sizing inclut les bordures et les espacements dans la taille annoncée. */
+/* box-sizing inclut les bordures et les espacements dans la taille annoncée, amélioration de l'expérience de navigation. */
 * {
   box-sizing: border-box;
 }
